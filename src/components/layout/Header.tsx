@@ -1,10 +1,10 @@
 import { TiWeatherPartlySunny } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { selectedTempUnitProvider } from "../../providers/selectedTempUnitProvider";
+import { useSelectedTempUnit } from "../../providers/selectedTempUnitProvider";
 const headerHeigth: string = "h-[8vh]";
 
 function Header() {
-    const { tempUnit, setTempUnit } = selectedTempUnitProvider();
+    const { tempUnit, setTempUnit } = useSelectedTempUnit();
 
     return (
         <div className={`fixed w-full ${headerHeigth} bg-gray-800`}>

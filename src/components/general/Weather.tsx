@@ -3,15 +3,14 @@ import { FaStar } from "react-icons/fa";
 import type { WeatherData } from "../../types";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import CollapsiblePanel from "../ui/CollapsiblePanel";
-import { selectedTempUnitProvider } from "../../providers/selectedTempUnitProvider";
+import { useSelectedTempUnit } from "../../providers/selectedTempUnitProvider";
 import { useFavCitiesList, type FavoriteCity } from "../../providers/favCitiesListsProvider";
 import { useWeatherData } from "../../providers/dataProvider";
 
 function Weather() {
   const { data } = useWeatherData();
-  const { tempUnit } = selectedTempUnitProvider();
+  const { tempUnitLabel } = useSelectedTempUnit();
   const { usersfavoriteCities, setUsersfavoriteCities } = useFavCitiesList();
-  const getTempUnit = () => (tempUnit === "metric" ? " °C" : " F");
 
   if (data.error) {
     return <div className="text-red-500 font-bold p-5 bg-white/10">{data.error}</div>;
@@ -49,19 +48,19 @@ function Weather() {
         </button>
       </div>
       <p>
-        {weather.main.temp} {getTempUnit()}
+        {weather.main.temp} {tempUnitLabel}
       </p>
       <p>
-        Feels like {weather.main.feels_like} {getTempUnit()}
+        Feels like {weather.main.feels_like} {tempUnitLabel}
       </p>
       <p>{weather.weather?.[0]?.description}</p>
       <CollapsiblePanel title="More">
         <div className="flex flex-col">
           <span>
-            max temp: {weather.main.temp_max} {getTempUnit()}
+            max temp: {weather.main.temp_max} {tempUnitLabel}
           </span>
           <span>
-            min temp: {weather.main.temp_min} {getTempUnit()}
+            min temp: {weather.main.temp_min} {tempUnitLabel}
           </span>
           <span>humidity: {weather.main.humidity}%</span>
         </div>

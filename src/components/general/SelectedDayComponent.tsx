@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import {  selectedTempUnitProvider } from "../../providers/selectedTempUnitProvider";
+import { useSelectedTempUnit } from "../../providers/selectedTempUnitProvider";
 import type { forecastWeather } from "../../types";
 import { useWeatherData } from "../../providers/dataProvider";
 
 interface SelectedDayComponentProps {
     selectedDay: string | null;
     groupByDay: (list: forecastWeather[]) => Record<string, forecastWeather[]>;
-}
+};
 
 function SelectedDayComponent({ selectedDay, groupByDay }: SelectedDayComponentProps) {
     const { data } = useWeatherData();
-    const { tempUnit } = selectedTempUnitProvider();
+    const { tempUnit } = useSelectedTempUnit();
     const [selectedTime, setSelectedTime] = useState<forecastWeather | null>(null);
     const selectedDayData = selectedDay ? groupByDay(data.forecastData.list)[selectedDay] : [];
-    
+
     const getTempUnit = () => (tempUnit === "metric" ? " °C" : " F");
-    
+
     interface WeatherItem {
         dt: number;
         dt_txt: string;
