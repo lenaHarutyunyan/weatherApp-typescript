@@ -1,0 +1,90 @@
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { selectedTempUnitProvider } from "./selectedTempUnitProvider.js";
+import { getForecast, getWeather } from "../api/getWeatherData.js";
+import { useCity } from "./cityProvider.js";
+
+interface WeatherState {
+    weatherData: any | null;
+    forecastData: any | null;
+    error: string | null;
+}
+
+interface WeatherContextType {
+    data: WeatherState;
+    setData: React.Dispatch<React.SetStateAction<WeatherState>>;
+}
+
+interface Props {
+    children: ReactNode;
+}
+
+const DataOfWeather = createContext<WeatherContextType | undefined>(undefined);
+
+export const useWeatherData = () => {
+    const context = useContext(DataOfWeather);
+    if (!context) {
+        throw new Error("dataProvider must be used within a CityProvider");
+    }
+    return context;
+};
+
+function DataProvider({ children }: Props) {
+    const { city } = useCity() as { city: string | null };
+    const { tempUnit } = selectedTempUnitProvider() as { tempUnit: string | undefined };
+
+    const [data, setData] = useState<WeatherState>({
+        weatherData: {},
+        forecastData: {},
+        error: null
+    });
+
+    const fetchAllWeatherData = useCallback((city: string) => {
+        if (!city) return;
+
+        getWeather(city, tempUnit)
+            .then((data) => {
+                setData(prev => ({ ...prev, error: null }))
+
+                if (data.cod == 404) {
+                    throw new Error();
+                }
+
+                setData(prev => {
+                    return {
+                        ...prev,
+                        weatherData: data
+                    };
+                })
+                return getForecast(city, tempUnit);
+            })
+            .then(data =>
+                setData(prev => {
+                    return {
+                        ...prev,
+                        forecastData: data
+                    };
+                })
+            )
+            .catch(() => {
+                setData(prev => ({
+                    ...prev,
+                    error: "City not found",
+                    weatherData: null,
+                    forecastData: null
+                }));
+            });
+    }, [tempUnit]);
+
+
+    useEffect(() => {
+        fetchAllWeatherData(city || "yerevan");
+    }, [city, fetchAllWeatherData]);
+
+    return (
+        <DataOfWeather.Provider value={{ data, setData }}>
+            {children}
+        </DataOfWeather.Provider>
+    );
+}
+
+export default DataProvider;
