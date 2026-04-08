@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useCity } from "../providers/cityProvider";
 import { getLocation } from "../api/getWeatherData";
 
-function useCurrentLocation(): void {
+function useCurrentLocation() {
     const { setCity } = useCity() as { setCity: (city: string) => void };
 
-    useEffect(() => {
+    const fetchLocation = () => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
@@ -13,14 +13,19 @@ function useCurrentLocation(): void {
 
                 getLocation(lat, lon)
                     .then((data: { name: string }) => setCity(data.name))
-                    .catch(() => { throw new Error("Failed to fetch location data") })
+                    .catch((err) => console.error("Failed to fetch location", err));
             },
             (err) => {
-                console.error("Unable to access your city ", err);
-                throw err;
+                console.error("Unable to access your city", err);
             }
-        )
-    }, [setCity]);
-};
+        );
+    };
+
+    useEffect(() => {
+        fetchLocation();
+    }, []);
+
+    return fetchLocation;
+}
 
 export default useCurrentLocation;

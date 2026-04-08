@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import { useCity } from "../../providers/cityProvider.js";
+import useCurrentLocation from "../../hooks/useCurrentLocation.js";
 
 function SearchCity() {
     const searchTimeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const { setCity } = useCity();
+    const fetchLocation = useCurrentLocation();
 
     function searchTime(event: React.ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
@@ -12,13 +14,16 @@ function SearchCity() {
             clearTimeout(searchTimeRef.current);
         }
 
-        if (value.trim() !== "") {
-            searchTimeRef.current = setTimeout(() => {
-                setCity(value);
-            }, 1000);
-        } else {
-            setCity("");
+        if (!value.trim()) {
+            setCity(null);
+            fetchLocation();
+            return;
         }
+
+        searchTimeRef.current = setTimeout(() => {
+            setCity(value);
+        }, 1000);
+
     }
 
     return (
