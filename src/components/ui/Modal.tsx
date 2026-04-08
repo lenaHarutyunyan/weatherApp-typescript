@@ -4,7 +4,7 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   onClose: () => void
-}
+};
 
 function Modal({ title, children, onClose }: ModalProps) {
 

@@ -16,7 +16,7 @@ interface LoadingSpinnerProps {
     size?: Size;
     color?: Color;
     variant?: Variant
-}
+};
 
 type Size = keyof typeof SIZES;
 type Color = keyof typeof COLORS;

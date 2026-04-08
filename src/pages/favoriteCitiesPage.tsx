@@ -33,12 +33,12 @@ function FavoriteCitiesPage() {
     const deleteCity = (id: number) => {
         setRemoveCityID(id);
         setIsDeleteModalOpen(true);
-    }
+    };
 
     const chooseCity = (city: City) => {
         setCity(city.name);
         navigate("/forecast");
-    }
+    };
 
     return (
         <Page title="Favorite cities list">

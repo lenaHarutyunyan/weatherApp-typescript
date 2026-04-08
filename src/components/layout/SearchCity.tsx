@@ -23,7 +23,6 @@ function SearchCity() {
         searchTimeRef.current = setTimeout(() => {
             setCity(value);
         }, 1000);
-
     }
 
     return (

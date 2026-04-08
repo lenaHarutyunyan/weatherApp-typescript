@@ -8,10 +8,10 @@ interface TempUnitContextType {
     setTempUnit: React.Dispatch<React.SetStateAction<TempUnit>>;
 };
 
-const getTempUnitLabel = (unit: TempUnit): TempUnitSymbols =>
-    unit === "metric" ? "°C" : "°F";
+const getTempUnitLabel = (unit: TempUnit): TempUnitSymbols => unit === "metric" ? "°C" : "°F";
 
 export const SelectedTempUnit = createContext<TempUnitContextType | undefined>(undefined);
+
 export const useSelectedTempUnit = () => {
     const context = useContext(SelectedTempUnit);
     if (!context) {

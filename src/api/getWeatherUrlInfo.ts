@@ -10,6 +10,7 @@ function getWeatherUrlInfo<T>({ tempUnit, city, lat, lon, type }: getWeatherUrlI
     if (lat !== undefined && lon !== undefined) {
         url += `&lat=${lat}&lon=${lon}`;
     }
+
     else if (city) {
         url += `&q=${city}`;
     }
