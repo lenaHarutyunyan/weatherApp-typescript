@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import useCurrentLocation from "../hooks/useCurrentLocation.js";
 import Page from "../components/layout/Page.jsx";
 import Weather from "../components/general/Weather.jsx";
-import SearchTown from "../components/layout/SearchTown.js";
+import SearchCity from "../components/layout/SearchCity.js";
 
 function MainPage() {
   useCurrentLocation();
+
   return (
     <Page title="Weather">
-      <SearchTown />
+      <SearchCity />
       <Weather />
       <div>
         <Link to="/forecast">View the weather forecast for the week →</Link>

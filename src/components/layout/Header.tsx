@@ -1,13 +1,16 @@
 import { TiWeatherPartlySunny } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { useSelectedTempUnit } from "../../providers/selectedTempUnitProvider";
-const headerHeigth: string = "h-[8vh]";
 
 function Header() {
-    const { tempUnit, setTempUnit } = useSelectedTempUnit();
+    const { tempUnit, tempUnitLabel, setTempUnit } = useSelectedTempUnit();
+
+    const handleTempUnitChange = () => {
+        setTempUnit(tempUnit === "imperial" ? "metric" : "imperial");
+    };
 
     return (
-        <div className={`fixed w-full ${headerHeigth} bg-gray-800`}>
+        <div className={`fixed w-full h-[8vh] bg-gray-800`}>
             <div className="flex h-full items-center justify-between max-w-450 mx-auto">
                 <div className="flex h-full items-center gap-2">
                     <TiWeatherPartlySunny className="text-4xl text-cyan-50/50" />
@@ -18,12 +21,10 @@ function Header() {
                 <nav className="flex gap-5 text-white">
                     <span
                         className="cursor-pointer bg-white/20 px-2 self-start"
-                        onClick={() => {
-                            setTempUnit(tempUnit === "imperial" ? "metric" : "imperial")
-                        }}
+                        onClick={handleTempUnitChange}
                     >
                         Change unit
-                        {tempUnit === "metric" ? " °C" : " F"}
+                        {tempUnitLabel}
                     </span>
                     <Link to="/favoriteCitiesPage" className="hover: shadow-2xl cursor-pointer">Favorite cities list</Link>
                 </nav>

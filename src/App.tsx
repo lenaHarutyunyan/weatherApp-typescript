@@ -1,11 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import CityProvider from "./providers/cityProvider"
-import DataProvider from "./providers/dataProvider"
-import FavCitiesProvider from "./providers/favCitiesListsProvider"
-import SelectedTempUnitProvider from "./providers/selectedTempUnitProvider"
-import MainPage from "./pages/mainPage"
-import FavoriteCitiesPage from "./pages/favoriteCitiesPage"
-import ForecastPage from "./pages/forecastPage"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CityProvider from "./providers/cityProvider";
+import DataProvider from "./providers/dataProvider";
+import FavCitiesProvider from "./providers/favCitiesListsProvider";
+import SelectedTempUnitProvider from "./providers/selectedTempUnitProvider";
+import MainPage from "./pages/mainPage";
+import FavoriteCitiesPage from "./pages/favoriteCitiesPage";
+import ForecastPage from "./pages/forecastPage";
 
 function App() {
   return (
@@ -25,6 +25,6 @@ function App() {
       </SelectedTempUnitProvider>
     </FavCitiesProvider>
   )
-}
+};
 
 export default App;

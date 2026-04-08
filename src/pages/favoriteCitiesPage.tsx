@@ -30,6 +30,16 @@ function FavoriteCitiesPage() {
         setIsDeleteModalOpen(false);
     };
 
+    const deleteCity = (id: number) => {
+        setRemoveCityID(id);
+        setIsDeleteModalOpen(true);
+    }
+
+    const chooseCity = (city: City) => {
+        setCity(city.name);
+        navigate("/forecast");
+    }
+
     return (
         <Page title="Favorite cities list">
             <div className="flex flex-col">
@@ -37,19 +47,13 @@ function FavoriteCitiesPage() {
                     <div key={city.id} className="flex w-80 border p-2 bg-white/5">
                         <span
                             className="w-full p-1 cursor-pointer hover:bg-white/20"
-                            onClick={() => {
-                                setCity(city.name);
-                                navigate("/forecast");
-                            }}
+                            onClick={() => { chooseCity(city); }}
                         >
                             {city.name}
                         </span>
 
                         <button
-                            onClick={() => {
-                                setRemoveCityID(city.id);
-                                setIsDeleteModalOpen(true);
-                            }}
+                            onClick={() => { deleteCity(city.id) }}
                             className="cursor-pointer hover:bg-gray-600 px-2"
                         >
                             X

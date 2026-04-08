@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useSelectedTempUnit } from "./selectedTempUnitProvider.js";
 import { getForecast, getWeather } from "../api/getWeatherData.js";
 import { useCity } from "./cityProvider.js";
+import type { Props } from "../types.js";
 
 interface WeatherState {
     weatherData: any | null;
@@ -12,10 +13,6 @@ interface WeatherState {
 interface WeatherContextType {
     data: WeatherState;
     setData: React.Dispatch<React.SetStateAction<WeatherState>>;
-};
-
-interface Props {
-    children: ReactNode;
 };
 
 const DataOfWeather = createContext<WeatherContextType | undefined>(undefined);
@@ -74,9 +71,8 @@ function DataProvider({ children }: Props) {
             });
     }, [tempUnit]);
 
-
     useEffect(() => {
-        fetchAllWeatherData(city || "yerevan");
+        fetchAllWeatherData(city || "");
     }, [city, fetchAllWeatherData]);
 
     return (

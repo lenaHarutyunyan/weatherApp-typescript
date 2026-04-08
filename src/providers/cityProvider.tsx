@@ -1,18 +1,15 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
+import type { Props } from "../types";
 
-interface Props {
-    children: ReactNode
+interface SelectedCityDataType {
+    city: string | null;
+    setCity: React.Dispatch<React.SetStateAction<string | null>>
 };
 
-interface selectedCityDataType {
-    city: string;
-    setCity: React.Dispatch<React.SetStateAction<string>>
-};
-
-export const SelectedСityData = createContext<selectedCityDataType | undefined>(undefined);
+export const SelectedCityData = createContext<SelectedCityDataType | undefined>(undefined);
 
 export const useCity = () => {
-    const context = useContext(SelectedСityData);
+    const context = useContext(SelectedCityData);
     if (!context) {
         throw new Error("cityProvider must be used within a CityProvider");
     }
@@ -20,12 +17,11 @@ export const useCity = () => {
 };
 
 function CityProvider({ children }: Props) {
-    const [city, setCity] = useState("yerevan");
-
+    const [city, setCity] = useState<string | null>(null);
     return (
-        <SelectedСityData.Provider value={{ city, setCity }}>
+        <SelectedCityData.Provider value={{ city, setCity }}>
             {children}
-        </SelectedСityData.Provider>
+        </SelectedCityData.Provider>
     )
 };
 

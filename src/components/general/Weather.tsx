@@ -9,7 +9,7 @@ import { useWeatherData } from "../../providers/dataProvider";
 
 function Weather() {
   const { data } = useWeatherData();
-  const { tempUnitLabel } = useSelectedTempUnit();
+  const { weatherInfoItem } = useSelectedTempUnit();
   const { usersfavoriteCities, setUsersfavoriteCities } = useFavCitiesList();
 
   if (data.error) {
@@ -48,19 +48,21 @@ function Weather() {
         </button>
       </div>
       <p>
-        {weather.main.temp} {tempUnitLabel}
+        {weatherInfoItem(weather.main.temp)}
       </p>
       <p>
-        Feels like {weather.main.feels_like} {tempUnitLabel}
+        Feels like
+        {weatherInfoItem(weather.main.feels_like)}
       </p>
       <p>{weather.weather?.[0]?.description}</p>
       <CollapsiblePanel title="More">
         <div className="flex flex-col">
           <span>
-            max temp: {weather.main.temp_max} {tempUnitLabel}
+            max temp:
+            {weatherInfoItem(weather.main.temp_max)}
           </span>
           <span>
-            min temp: {weather.main.temp_min} {tempUnitLabel}
+            min temp: {weatherInfoItem(weather.main.temp_min)}
           </span>
           <span>humidity: {weather.main.humidity}%</span>
         </div>

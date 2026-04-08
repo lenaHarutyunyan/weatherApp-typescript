@@ -1,10 +1,5 @@
-import type { ReactNode } from "react";
 import Header from "./Header";
-
-interface PageProps {
-  children: ReactNode;
-  title: string
-};
+import type { PageProps } from "../../types";
 
 function Page({ children, title }: PageProps) {
   return (
@@ -18,6 +13,6 @@ function Page({ children, title }: PageProps) {
       </div>
     </div>
   )
-}
+};
 
 export default Page;

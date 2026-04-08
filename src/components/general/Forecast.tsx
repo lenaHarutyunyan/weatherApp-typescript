@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { forecastWeather } from "../../types";
+import type { ForecastWeather } from "../../types";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { useWeatherData } from "../../providers/dataProvider";
 import SelectedDayComponent from "./SelectedDayComponent";
@@ -10,11 +10,11 @@ function Forecast() {
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
     interface IWeatherGroup {
-        [key: string]: forecastWeather[];
+        [key: string]: ForecastWeather[];
     };
 
-    const groupByDay = (list: forecastWeather[]): IWeatherGroup => {
-        return list.reduce((group: IWeatherGroup, item: forecastWeather) => {
+    const groupByDay = (list: ForecastWeather[]): IWeatherGroup => {
+        return list.reduce((group: IWeatherGroup, item: ForecastWeather) => {
             const date = item.dt_txt.split(" ")[0];
             if (!group[date]) group[date] = [];
             group[date].push(item);
@@ -49,9 +49,7 @@ function Forecast() {
                 {days.map(([date]) => (
                     <button
                         key={date}
-                        onClick={() => {
-                            setSelectedDay(date);
-                        }}
+                        onClick={() => { setSelectedDay(date) }}
                         className={`p-2 rounded bg-white/10 cursor-pointer ${selectedDay === date ? "bg-white/40 text-black" : ""}`}
                     >
                         {date}

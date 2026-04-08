@@ -1,22 +1,18 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
+import type { Props, TempUnit, TempUnitSymbols } from "../types";
 
 interface TempUnitContextType {
     tempUnit: TempUnit;
-    tempUnitLabel: string;
+    tempUnitLabel: TempUnitSymbols;
+    weatherInfoItem: (data: number | undefined) => string;
     setTempUnit: React.Dispatch<React.SetStateAction<TempUnit>>;
-}
-
-interface Props {
-    children: ReactNode;
 };
 
-type TempUnit = "metric" | "imperial";
-
-const getTempUnitLabel = (unit: TempUnit) =>
+const getTempUnitLabel = (unit: TempUnit): TempUnitSymbols =>
     unit === "metric" ? "°C" : "°F";
 
 export const SelectedTempUnit = createContext<TempUnitContextType | undefined>(undefined);
-export const useSelectedTempUnit  = () => {
+export const useSelectedTempUnit = () => {
     const context = useContext(SelectedTempUnit);
     if (!context) {
         throw new Error("SelectedTempUnitProvider must be used within a SelectedTempUnitProvider");
@@ -28,9 +24,10 @@ function SelectedTempUnitProvider({ children }: Props) {
     const [tempUnit, setTempUnit] = useState<TempUnit>("metric");
     const tempUnitLabel = getTempUnitLabel(tempUnit);
 
+    const weatherInfoItem = (data: number | undefined ) => `${data}${tempUnitLabel}`;
 
     return (
-        <SelectedTempUnit.Provider value={{ tempUnit, tempUnitLabel, setTempUnit }}>
+        <SelectedTempUnit.Provider value={{ tempUnit, tempUnitLabel, weatherInfoItem, setTempUnit }}>
             {children}
         </SelectedTempUnit.Provider>
     )
